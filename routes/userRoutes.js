@@ -1,107 +1,112 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
-const ensureLogin = require("connect-ensure-login");
+const express     = require('express');
+const router      = express.Router();
+const User        = require('../models/User');
+const bcrypt      = require('bcryptjs');
+const passport    = require('passport');
 
-router.get("/signup", (req, res, next) => {
-  console.log("I'm inside get /signup");
-  res.render("../views/user-views/signup");
-});
 
-router.post("/signup", (req, res, next) => {
-  const password = req.body.password;
-  const username = req.body.username;
+router.post('/signup', (req, res, next) => {
+    const userNameVar = req.body.username;
+    const password = req.body.password;
+  
+    if (!userNameVar || !password) {
+      res.status(400).json({ message: 'Provide username and password' });
+      return;
+    }
 
-  const salt = bcrypt.genSaltSync(3);
-  const hashedPassWord = bcrypt.hashSync(password, salt);
-  console.log("I'm right outsie the create user");
+    // if(password.length < 7){
+    //     res.status(400).json({ message: 'Please make your password at least 8 characters long for security purposes.' });
+    //     return;
+    // }
+    // this is not for testing only add something like this after the featurw works correctly
+  
+    User.findOne({ username:userNameVar }, (err, foundUser) => {
 
-  User.create({
-    username: username,
-    password: hashedPassWord
-  })
-    .then(() => {
-      console.log("yay");
-      res.redirect("/login");
-    })
-    .catch(err => {
-      next(err);
+        if(err){
+            res.status(500).json({message: "Username check went bad."});
+            return;
+        }
+
+        if (foundUser) {
+            res.status(400).json({ message: 'Username taken. Choose another one.' });
+            return;
+        }
+  
+        const salt     = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(password, salt);
+  
+        const aNewUser = new User({
+            username:userNameVar,
+            password: hashPass
+        });
+  
+        aNewUser.save(err => {
+            if (err) {
+                res.status(400).json({ message: 'Saving user to database went wrong.' });
+                return;
+            }
+            
+            // Automatically log in user after sign up
+            // .login() here is actually predefined passport method
+            req.login(aNewUser, (err) => {
+
+                if (err) {
+                    res.status(500).json({ message: 'Login after signup went bad.' });
+                    return;
+                }
+            
+
+                res.status(200).json({message: 'successfully logged in'});
+            });
+        });
     });
-  ``;
 });
 
-router.get("/login", (req, res, next) => {
-  res.render("user-views/login");
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, theUser, failureDetails) => {
+        if (err) {
+            res.status(500).json({ message: 'Something went wrong authenticating user' });
+            return;
+        }
+    
+        if (!theUser) {
+            // "failureDetails" contains the error messages
+            // from our logic in "LocalStrategy" { message: '...' }.
+            res.status(401).json(failureDetails);
+            return;
+        }
+
+        // save user in session
+        req.login(theUser, (err) => {
+            if (err) {
+                res.status(500).json({ message: 'Session save went bad.' });
+                return;
+            }
+
+            // We are now logged in (that's why we can also send req.user)
+            console.log('--***********--', req.user);
+            res.status(200).json(theUser);
+        });
+    })(req, res, next);
 });
 
-// MANUAL WAY
-//   if (req.session.errorCount <= 0) {
-//     req.session.errorMessage = null;
-//   }
-//   req.session.errorCount -= 1;
-
-//   res.render("user-views/login", { error: req.session.errorMessage });
-// });
-
-// router.post("/login", (req, res, next) => {
-//   const password = req.body.thePassword;
-//   const username = req.body.theUsername;
-
-//   User.findOne({ username: username })
-//     .then(user => {
-//       if (!user) {
-//         req.session.errorMessage = "sorry, no one with that username found";
-//         req.session.errorCount = 1;
-//         res.redirect("/login");
-//       }
-//       if (bcrypt.compareSync(password, user.password)) {
-//         req.session.currentUser = user;
-//         res.redirect("/");
-//       } else {
-//         req.session.errorMessage = "wrong password";
-//         req.session.errorCount = 1;
-//         res.redirect("/login");
-//       }
-//     })
-//     .catch(error => {
-//       next(error);
-//     });
-// });
-
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
-    failureFlash: true,
-    passReqToCallback: true
-  })
-);
-
-router.get("/logout", (req, res, next) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out'); //not working
-  res.redirect("/login");
+router.post('/logout', (req, res, next) => {
+    // req.logout() is defined by passport
+    req.logout();
+    res.status(200).json({ message: 'Log out success!' });
 });
 
-// this is how you can manually add something to req.flash
-// req.flash("error", "Random Word");
-// res.redirect("/");
+router.get('/getcurrentuser', (req, res, next) => {
+    // req.isAuthenticated() is defined by passport
+    if (req.user) {
+        let newObject = {};
+        newObject.username = req.user.username;
+        newObject._id = req.user._id;
 
-// router.get("user-views/profile", (req, res, next) => {
-// });
-
-// MANUAL WAY ^
-//   if (req.session.currentUser) {
-//     res.render("user-views/profile", { user: req.session.currentUser });
-//   } else {
-//     req.session.errorCount = 1;
-//     req.session.errorMessage =
-//       "Sorry, you must be logged in to use that feature please log in";
-//     res.redirect("/login");
-//   }
-//no slash for render
+        res.status(200).json(newObject);
+        return;
+    }
+    res.status(403).json({ message: 'Unauthorized' });
+});
 
 module.exports = router;
