@@ -4,12 +4,18 @@ const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
 const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const User = require("./models/User");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const flash = require("connect-flash");
 
-
+mongoose.Promise = Promise;
 mongoose
   .connect('mongodb://localhost/cosmic-calendar-express', {useNewUrlParser: true})
   .then(x => {
@@ -30,6 +36,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//card images working because of this
+// app.use(express.static("./public/images"));
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -48,6 +57,63 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
+
+
+app.use(
+  session({
+    secret: "shhhhh-super-secret",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+// PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
+});
+
+app.use(flash());
+
+passport.use(
+  new LocalStrategy((username, password, next) => {
+    User.findOne({ username }, (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next(null, false, {
+          message: "Could not locate username, try again"
+        });
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        return next(null, false, {
+          message: "Password does not match username"
+        });
+      }
+
+      return next(null, user);
+    });
+  })
+);
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.err = req.flash("error");
+  res.locals.yay = req.flash("success");
+  next();
+});
 
 
 //--------------------------------ROUTES-----------------------------------
