@@ -7,17 +7,17 @@ const favicon = require("serve-favicon");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
+const cors = require("cors");
 
-require('./config/passport-stuff');
+require('./config/passport');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect("mongodb://localhost/cosmic-calendar-express", {useMongoClient: true})
-  .then(() => {
-    console.log(`Connected to Mongo!`);
+  .connect("mongodb://localhost/cosmic-calendar-express", {useNewUrlParser: true})
+  .then(x => {
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
   }).catch(err => {
     console.error("Error connecting to mongo", err);
   });
@@ -46,8 +46,8 @@ app.use(
   })
 );
 
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
@@ -69,15 +69,15 @@ app.use(passport.session());
 //cors 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000' /*, 'https://blah.herokuapp.com' */]
+  origin: ['http://localhost:5000', 'https://blah.herokuapp.com']
 }));
 
 //--------------------------------ROUTES-----------------------------------
-// const index = require("./routes/index");
-// app.use("/", index);
+const index = require("./routes/index");
+app.use("/", index);
 
-const userRoutes = require("./routes/userRoutes");
-app.use("/", userRoutes);
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/auth', userRoutes);
 
 //_________________________________________________________________________
 module.exports = app;

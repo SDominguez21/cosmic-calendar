@@ -6,11 +6,16 @@ const passport    = require('passport');
 
 
 router.post('/signup', (req, res, next) => {
-    const userNameVar = req.body.username;
+    console.log("calling signup route", req.body);
+
+    const username = req.body.username;
     const password = req.body.password;
+    const email = req.body.email;
+    const name = req.body.name;
+    const city = req.body.city;
   
-    if (!userNameVar || !password) {
-      res.status(400).json({ message: 'Provide username and password' });
+    if (!username || !password || !email || !name || !city) {
+      res.status(400).json({ message: 'Please fill in missing information' });
       return;
     }
 
@@ -20,7 +25,7 @@ router.post('/signup', (req, res, next) => {
     // }
     // this is not for testing only add something like this after the featurw works correctly
   
-    User.findOne({ username:userNameVar }, (err, foundUser) => {
+    User.findOne({ username:username }, (err, foundUser) => {
 
         if(err){
             res.status(500).json({message: "Username check went bad."});
@@ -31,24 +36,25 @@ router.post('/signup', (req, res, next) => {
             res.status(400).json({ message: 'Username taken. Choose another one.' });
             return;
         }
-  
+        
         const salt     = bcrypt.genSaltSync(10);
         const hashPass = bcrypt.hashSync(password, salt);
   
-        const aNewUser = new User({
-            username:userNameVar,
-            password: hashPass
+        const newUser = new User({
+            username:username,
+            password: hashPass,
+            name: name,
+            email: email,
+            city: city,
         });
   
-        aNewUser.save(err => {
+        newUser.save(err => {
             if (err) {
                 res.status(400).json({ message: 'Saving user to database went wrong.' });
                 return;
             }
             
-            // Automatically log in user after sign up
-            // .login() here is actually predefined passport method
-            req.login(aNewUser, (err) => {
+            req.login(newUser, (err) => {
 
                 if (err) {
                     res.status(500).json({ message: 'Login after signup went bad.' });
@@ -56,7 +62,7 @@ router.post('/signup', (req, res, next) => {
                 }
             
 
-                res.status(200).json({message: 'successfully logged in'});
+                res.status(200).json({message: 'successfully logged in', newUser});
             });
         });
     });
@@ -70,8 +76,6 @@ router.post('/login', (req, res, next) => {
         }
     
         if (!theUser) {
-            // "failureDetails" contains the error messages
-            // from our logic in "LocalStrategy" { message: '...' }.
             res.status(401).json(failureDetails);
             return;
         }
@@ -96,17 +100,17 @@ router.post('/logout', (req, res, next) => {
     res.status(200).json({ message: 'Log out success!' });
 });
 
-router.get('/getcurrentuser', (req, res, next) => {
-    // req.isAuthenticated() is defined by passport
-    if (req.user) {
-        let newObject = {};
-        newObject.username = req.user.username;
-        newObject._id = req.user._id;
+// router.get('/getcurrentuser', (req, res, next) => {
+//     // req.isAuthenticated() is defined by passport
+//     if (req.user) {
+//         let newObject = {};
+//         newObject.username = req.user.username;
+//         newObject._id = req.user._id;
 
-        res.status(200).json(newObject);
-        return;
-    }
-    res.status(403).json({ message: 'Unauthorized' });
-});
+//         res.status(200).json(newObject);
+//         return;
+//     }
+//     res.status(403).json({ message: 'Unauthorized' });
+// });
 
 module.exports = router;
