@@ -76,7 +76,6 @@ app.use(cors({
 // const index = require("./routes/index");
 // app.use("/", index);
 
-
 const userRoutes = require("./routes/userRoutes");
 app.use("/", userRoutes);
 
