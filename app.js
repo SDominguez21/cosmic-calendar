@@ -10,22 +10,39 @@ const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
+const hbs = require("hbs");
+const moment = require('moment');
 
-require('./config/passport');
+require("./config/passport");
 
 mongoose.Promise = Promise;
 mongoose
-  .connect("mongodb://localhost/cosmic-calendar-express", {useNewUrlParser: true})
+  .connect("mongodb://localhost/cosmic-calendar-express", {
+    useNewUrlParser: true
+  })
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
-  }).catch(err => {
+    console.log(
+      `Connected to Mongo! Database name: "${x.connections[0].name}"`
+    );
+  })
+  .catch(err => {
     console.error("Error connecting to mongo", err);
   });
 
 const app_name = require("./package.json").name;
-const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
+const debug = require("debug")(
+  `${app_name}:${path.basename(__filename).split(".")[0]}`
+);
 
 const app = express();
+
+//cors
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "https://cosmic-calendar.herokuapp.com"]
+  })
+);
 
 // Middleware Setup
 app.use(logger("dev"));
@@ -47,7 +64,7 @@ app.use(
 );
 
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine");
+app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
@@ -66,18 +83,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//cors 
-app.use(cors({
-  credentials: true,
-  origin: ['http://localhost:5000', 'https://blah.herokuapp.com']
-}));
-
 //--------------------------------ROUTES-----------------------------------
 const index = require("./routes/index");
 app.use("/", index);
 
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/auth', userRoutes);
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/auth", userRoutes);
 
 //_________________________________________________________________________
 module.exports = app;
