@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
+  id: String,
   name: String,
   type: String,
-  id: String,
+  time: String,
   owner: String,
   startDate: String,
   endDate: String,
-  time: String,
   location: String,
   description: String,
   img: String
