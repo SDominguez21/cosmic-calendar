@@ -13,6 +13,16 @@
 //     console.error("Error connecting to mongo", err);
 //   });
 
+// id: String,
+// name: String,
+// type: String,
+// time: String,
+// startDate: String,
+// endDate: String,
+// location: String,
+// description: String,
+// img: String
+
 //   const cards = [
 //     {
 //     name: "Perseid Meteors",
@@ -54,7 +64,7 @@
 //       name: "September Equinox",
 //       date: [sep 23],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "Northern Hemisphere",
 //       description: "Also known as the autumnal (fall) equinox in the Northern Hemisphere, the September Equinox is considered by many as the first day of fall.",
 //       img: "",
@@ -72,7 +82,7 @@
 //       name: "Hunter's Moon",
 //       date: [oct 13],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "In many Native American cultures, October is the month of hunting and preparing for the upcoming winter season. This is why October's Full Moon is often called Hunter's Moon. It is sometimes known as the Blood Moon or Sanguine Moon, though in recent years, the term Blood Moon is also used to refer to a total lunar eclipse.",
 //       img: "",
@@ -90,7 +100,7 @@
 //       name: "Mercury Transit",
 //       date: [Nov 11/12],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "Visible from most parts of the world",
 //       description: "Mercury, the smallest planet of our solar system, will move between the Sun and the Earth and appear as a small, dark speck of dust in front of the Sun for about 5 hours and 30 minutes. Like solar eclipses, must be viewed using specialized eyewear.",
 //       img: "",
@@ -99,7 +109,7 @@
 //       name: "Beaver Moon",
 //       date: [Nov 12],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "November's Full Moon is called a Beaver Moon, after beavers that build their dams during this time of the year.",
 //       img: "",
@@ -108,7 +118,7 @@
 //       name: "Leonid Meteor Shower",
 //       date: [Nov 6-30],
 //       // peak: [Nov 17/18],
-//       // parent: 55P/Tempel-Tuttle 
+//       // parent: 55P/Tempel-Tuttle
 //       location: "Both Hemispheres",
 //       description: "The shower is called Leonids because its radiant, or the point in the sky where the meteors seem to emerge from, lies in the constellation Leo.",
 //       img: "",
@@ -117,7 +127,7 @@
 //       name: "Cold Moon",
 //       date: [dec 12],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "The year's final Full Moon in December is called a Cold Moon because of low temperatures in most locations in the Northern Hemisphere.",
 //       img: "",
@@ -135,7 +145,7 @@
 //       name: "December Solstice",
 //       date: [Dec 21],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "The shortest day of the year in the Northern Hemisphere. In the Southern Hemisphere, it is the longest day of the year and is called the summer solstice. Occurs when the Sun reaches its most southerly declination of -23.4 degrees. In other words, when the North Pole is tilted furthest away from the Sun.",
 //       img: "",
@@ -144,7 +154,7 @@
 //       name: "Ursid Meteors",
 //       date: [dec 17-26],
 //       // peak: [dec 22-23],
-//       // parent: 8P/Tuttle 
+//       // parent: 8P/Tuttle
 //       location: "Northern Hemisphere",
 //       description: "At its peak, observers may be able to view as many as 10 meteors in an hour.",
 //       img: "",
@@ -154,7 +164,7 @@
 //       name: "",
 //       date: [],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "",
 //       img: "",
@@ -163,7 +173,7 @@
 //       name: "",
 //       date: [],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "",
 //       img: "",
@@ -172,7 +182,7 @@
 //       name: "",
 //       date: [],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "",
 //       img: "",
@@ -181,7 +191,7 @@
 //       name: "",
 //       date: [],
 //       // peak: [],
-//       // parent: 
+//       // parent:
 //       location: "",
 //       description: "",
 //       img: "",
@@ -189,12 +199,8 @@
 
 //   ]; //end
 
-//   CosmicEvent.create(cosmicevent); 
-
-
-
+//   CosmicEvent.create(cosmicevent);
 
 // const cosmicEventSchema = new Schema({
-  
-// });
 
+// });
