@@ -10,34 +10,32 @@ router.get('/', (req, res, next) => {
   res.json({ message: "it's ok" });
 });
 
-router.get('/today', async (req, res, next) => {
+router.get('/allCallsForMonth', async (req, res, next) => {
   console.log('hello you rang?');
 
   // dummy info in arrays
-  let weather = {
-    weather: 'partly cloudy, chance of rain',
-    highTempF: '90 degrees',
-    lowTemp: '87 degreese'
-  };
-  let moon = { name: 'fullmoon', date: 'August 4, 2019' };
+  let weather = [];
+  // HARDCODE TEST{ weather: 'partly cloudy, chance of rain', highTempF: '90 degrees',lowTemp: '87 degreese'}
+  let moon = [];
+  // HARDCODE TEST { name: 'fullmoon', date: 'August 4, 2019' }
   let cosmicEvent = { name: "Merlin's Beard", type: 'meteor shower' };
-  // await rp
-  //   .get({
-  //     url:
-  //       'https://api.aerisapi.com/forecasts/miami,fl?filter=daynight&limit=60&format=json&client_id=ubVTEqqaNjJ2GI2wGFHqj&client_secret=DTmrLknIoE2Bk2HOBj6jHKJqcj0CBDK5KhyZTkoR'
-  //   })
-  //   .then(data => {
-  //     weather.push(...JSON.parse(data).response[0].periods);
-  //     console.log(weather);
-  //   });
-  // await rp
-  //   .get({
-  //     url:
-  //       'https://api.aerisapi.com/sunmoon/moonphases?limit=31&miami,fl&from=08/02/2019&format=json&client_id=ubVTEqqaNjJ2GI2wGFHqj&client_secret=DTmrLknIoE2Bk2HOBj6jHKJqcj0CBDK5KhyZTkoR'
-  //   })
-  //   .then(data => {
-  //     moon.push(...JSON.parse(data).response);
-  //   });
+  await rp
+    .get({
+      url:
+        'https://api.aerisapi.com/forecasts/miami,fl?filter=daynight&limit=60&format=json&client_id=ubVTEqqaNjJ2GI2wGFHqj&client_secret=DTmrLknIoE2Bk2HOBj6jHKJqcj0CBDK5KhyZTkoR'
+    })
+    .then(data => {
+      weather.push(...JSON.parse(data).response[0].periods);
+      // console.log(weather);
+    });
+  await rp
+    .get({
+      url:
+        'https://api.aerisapi.com/sunmoon/moonphases?limit=31&miami,fl&from=08/02/2019&format=json&client_id=ubVTEqqaNjJ2GI2wGFHqj&client_secret=DTmrLknIoE2Bk2HOBj6jHKJqcj0CBDK5KhyZTkoR'
+    })
+    .then(data => {
+      moon.push(...JSON.parse(data).response);
+    });
 
   res.send({
     weather: weather,
