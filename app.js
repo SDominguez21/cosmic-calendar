@@ -17,7 +17,7 @@ require('./config/passport');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/cosmic-calendar-express', {
+  .connect('mongodb://localhost/CircadianCalendar', {
     useNewUrlParser: true
   })
   .then(x => {

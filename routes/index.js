@@ -13,7 +13,6 @@ router.get('/', (req, res, next) => {
 router.get('/allCallsForMonth', async (req, res, next) => {
   console.log('hello you rang?');
 
-  // dummy info in arrays
   let weather = [];
   // HARDCODE TEST{ weather: 'partly cloudy, chance of rain', highTempF: '90 degrees',lowTemp: '87 degreese'}
   let moon = [];
@@ -44,8 +43,3 @@ router.get('/allCallsForMonth', async (req, res, next) => {
   });
 });
 module.exports = router;
-
-
-
-
-
