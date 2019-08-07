@@ -15,21 +15,21 @@ mongoose
 
 const event = [
   {
-    id: String,
+    id: null,
     name: 'Perseid Meteors',
     type: 'Meteor Shower',
-    time: String,
+    time: null,
     startDate: '07/17/2019',
     endDate: '08/24/2019',
     location: 'Northern Hemisphere',
     description: 'Peak: 08/12/2019-08/13/2019, Parent: Comet 109P/Swift-Tuttle',
-    img: String
+    img: null
   },
   {
-    id: String,
+    id: null,
     name: 'Sturgeon Moon',
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '08/15/2019',
     endDate: '08/16/2019',
     location: 'Northern Hemisphere',
@@ -37,10 +37,10 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Harvest Moon',
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '09/14/2019',
     endDate: '09/15/2019',
     location: 'Northern Hemisphere',
@@ -49,10 +49,10 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Micro Full Moon',
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '09/14/2019',
     endDate: '09/15/2019',
     location: 'Northern Hemisphere',
@@ -61,19 +61,19 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'September Equinox',
-    type: String,
-    time: String,
+    type: null,
+    time: null,
     startDate: '09/23/2019',
-    endDate: String,
+    endDate: null,
     location: 'Northern Hemisphere',
     description:
       'Also known as the autumnal (fall) equinox in the Northern Hemisphere, the September Equinox is considered by many as the first day of fall.',
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Draconid Meteor Shower',
     type: 'Meteor Shower',
     time: 'just before nightfall',
@@ -85,10 +85,10 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: "Hunter's Moon",
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '10/13/2019',
     endDate: '10/14/2019',
     location: 'Northern Hemisphere',
@@ -97,7 +97,7 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Orionid Meteor Shower',
     type: 'Meteor Shower',
     time: 'just after midnight and before the Sun rises',
@@ -108,10 +108,10 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Mercury Transit',
     type: 'Mercury Transit',
-    time: String,
+    time: null,
     startDate: '11/11/2019',
     endDate: '11/12/2019',
     location: 'Visible from most parts of the world',
@@ -120,22 +120,22 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Beaver Moon',
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '11/12/2019',
     endDate: '11/13/2019',
-    location: String,
+    location: null,
     description:
       "November's Full Moon is called a Beaver Moon, after beavers that build their dams during this time of the year.",
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Leonid Meteor Shower',
     type: 'Meteor SHower',
-    time: String,
+    time: null,
     startDate: '11/06/2019',
     endDate: '11/30/2019',
     location: 'Both Hemispheres',
@@ -144,65 +144,65 @@ const event = [
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Cold Moon',
     type: 'Full Moon',
-    time: String,
+    time: null,
     startDate: '12/12/2019',
-    endDate: String,
+    endDate: null,
     location: '',
     description:
       "The year's final Full Moon in December is called a Cold Moon because of low temperatures in most locations in the Northern Hemisphere.",
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Geminid Meteors',
     type: 'Meteor Shower',
-    time: String,
+    time: null,
     startDate: '12/04/2019',
     endDate: '12/17/2019',
     location: 'Both Hemispheres',
     description:
-      "Geminids are not associated with a comet but with an asteroid: the 3200 Phaethon. The asteroid takes about 1.4 years to orbit the Sun. During it's peak, 12/14-12/15, there is a possibility of sighting around 120 meteors per hour.",
+      "Geminids are not associated with a comet but with an asteroid: null00 Phaethon. The asteroid takes about 1.4 years to orbit the Sun. During it's peak, 12/14-12/15, there is a possibility of sighting around 120 meteors per hour.",
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'December Solstice',
     type: 'Solstice',
-    time: String,
+    time: null,
     startDate: '12/21/2019',
-    endDate: String,
+    endDate: null,
     location: 'Northern Hemisphere',
     description:
       'The shortest day of the year in the Northern Hemisphere. In the Southern Hemisphere, it is the longest day of the year and is called the summer solstice. Occurs when the Sun reaches its most southerly declination of -23.4 degrees. In other words, when the North Pole is tilted furthest away from the Sun.',
     img: ''
   },
   {
-    id: String,
+    id: null,
     name: 'Ursid Meteors',
     type: 'Meteor Shower',
-    time: String,
+    time: null,
     startDate: '12/17/2019',
     endDate: '12/26/2019',
     location: 'Northern Hemisphere',
     description:
       'At its peak, 12/22-12/23, observers may be able to view as many as 10 meteors in an hour. Partent: Comet 8P/Tuttle',
     img: ''
-  },
-  // cosmic events in 2020
-  {
-    id: String,
-    name: String,
-    type: String,
-    time: String,
-    startDate: String,
-    endDate: String,
-    location: String,
-    description: ' peak + parent if meteor ',
-    img: ''
   }
+  // cosmic events in 2020
+  // {
+  //   id: null,
+  //   name: null,
+  //   type: null,
+  //   time: null,
+  //   startDate: null,
+  //   endDate: null,
+  //   location: null,
+  //   description: ' peak + parent if meteor ',
+  //   img: ''
+  // }
 ]; //end
 
 Event.create(event);
